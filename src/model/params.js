@@ -1,4 +1,4 @@
-import {addApi,listApi} from '../util/service'
+import {addApi,detailApi,updateApi} from '../util/service'
 
 export default {
     namespaces: 'params',
@@ -8,7 +8,7 @@ export default {
             comment:'',
         },
         params:[{
-            name:'xiaos',
+            name:'',
             type:'string',
             defaultValue:'',
             required:true,
@@ -29,11 +29,40 @@ export default {
     },
     effects:{
         *addApi({payload},{call,put}){
-            const res = yield call(addApi,payload);
-            console.log(res);
+            const {code} = yield call(addApi,payload);
+            if (code === 0){
+                return true
+            }else {
+                return false
+            }
+        },
+        *updateApi({payload},{call,put}){
+
+        },
+        *getApiDetail({payload},{call,put}){
+            const {code,data,message} = yield call(detailApi,payload);
+            if (code === 0){
+                yield put({
+                    type:'setApiDetail',
+                    payload:data,
+                });
+                return true;
+            }else {
+                return false;
+            }
         }
     },
     reducers: {
+        setApiDetail(state,{payload}){
+            const {request,params,cals,test} = payload;
+            return {
+              ...state,
+                request,
+                params,
+                cals,
+                test
+            }
+        },
         changeTestParams(state,{payload}){
             const {test} = state;
             test.params = payload;

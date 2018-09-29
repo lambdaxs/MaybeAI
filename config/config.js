@@ -44,7 +44,10 @@ export default {
                     path: 'list',
                     component: './api/list'
                 },{
-                    path: 'index',
+                    path: 'new',
+                    component: './api/index'
+                },{
+                    path: 'edit/:id',
                     component: './api/index'
                 },{
                     path: 'cal',

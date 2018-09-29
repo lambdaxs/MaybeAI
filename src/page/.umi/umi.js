@@ -1,23 +1,30 @@
+import './polyfills';
+
+import '@tmp/initHistory';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-
-
-// create history
-window.g_history = require('umi/_createHistory').default({
-  basename: window.routerBase,
+// runtime plugins
+window.g_plugins = require('umi/_runtimePlugin');
+window.g_plugins.init({
+  validKeys: ['patchRoutes','render','rootContainer','dva',],
 });
+window.g_plugins.use(require('../../../node_modules/_umi-plugin-dva@1.1.1@umi-plugin-dva/lib/runtime'));
+
+require('@tmp/initDva');
 
 // render
-function render() {
-  const DvaContainer = require('./DvaContainer').default;
-  ReactDOM.render(React.createElement(
-    DvaContainer,
-    null,
-    React.createElement(require('./router').default)
-  ), document.getElementById('root'));
-}
+let oldRender = () => {
+  const rootContainer = window.g_plugins.apply('rootContainer', {
+    initialValue: React.createElement(require('./router').default),
+  });
+  ReactDOM.render(
+    rootContainer,
+    document.getElementById('root'),
+  );
+};
+const render = window.g_plugins.compose('render', { initialValue: oldRender });
 
 const moduleBeforeRendererPromises = [];
 
@@ -34,6 +41,6 @@ Promise.all(moduleBeforeRendererPromises).then(() => {
 // hot module replacement
 if (module.hot) {
   module.hot.accept('./router', () => {
-    render();
+    oldRender();
   });
 }

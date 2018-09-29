@@ -1,6 +1,7 @@
 import react from 'react'
 import {Table,Input,Row,Col,Button} from 'antd'
 import {connect} from 'dva';
+import Link from 'umi/link';
 
 @connect(({api}) => ({
     List:api.list
@@ -39,13 +40,16 @@ class View extends react.Component {
                 const {_id} = r;
                 return (
                     <div>
-                        <a>编辑</a>/<a>删除</a>
+                        <Link to={`/api/edit/${_id}`}>编辑</Link>/<Link to={'/api/edit'}>删除</Link>
                     </div>
                 )
             }
         }];
 
-        const datas = this.props.List;
+        const datas = this.props.List.map((v,i)=>{
+            v.key = i;
+            return v;
+        });
         const {query_url,query_comment} = this.state;
         const query_style = {marginRight:'8px',marginTop:'8px',marginBottom:'8px'};
 
