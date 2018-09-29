@@ -41,14 +41,17 @@ export default {
             },{
                 path: 'api',
                 routes: [{
+                    path: 'list',
+                    component: './api/list'
+                },{
+                    path: 'index',
+                    component: './api/index'
+                },{
                     path: 'cal',
                     component: './api/cal'
                 },{
                     path: 'params',
                     component: './api/params'
-                },{
-                    path: 'params/v2',
-                    component: './api/newParams'
                 }]
             }
         ]

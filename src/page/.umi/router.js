@@ -53,6 +53,16 @@ let routes = [
         "path": "/api",
         "routes": [
           {
+            "path": "/api/list",
+            "component": require('../api/list').default,
+            "exact": true
+          },
+          {
+            "path": "/api/index",
+            "component": require('../api/index').default,
+            "exact": true
+          },
+          {
             "path": "/api/cal",
             "component": require('../api/cal').default,
             "exact": true
@@ -60,11 +70,6 @@ let routes = [
           {
             "path": "/api/params",
             "component": require('../api/params').default,
-            "exact": true
-          },
-          {
-            "path": "/api/params/v2",
-            "component": require('../api/newParams').default,
             "exact": true
           },
           {

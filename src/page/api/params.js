@@ -5,84 +5,36 @@ import {Row,Col,Input,Button,Select,Table,Checkbox} from 'antd'
 const {Option,OptGroup} = Select;
 
 
-@connect(() => ({
-
+@connect(({params}) => ({
+    Params:params.params,
+    Value:params.v,
 }))
 export default class View extends React.Component{
     constructor(props){
         super(props);
-
-        this.state = {
-            params:[{
-                name:'',
-                type:'string',
-                defaultValue:'',
-                required:true,
-                comment:''
-            }],
-        }
     }
 
-    changeName = (e,i)=>{
-        const {params} = this.state;
-        params[i].name = e.target.value;
-        this.setState({
-            params
-        });
-    };
-
-    changeType = (e,i)=>{
-        const {params} = this.state;
-        params[i].type = e;
-        this.setState({
-            params
-        });
-    };
-
-    changeRequire = (index)=>{
-        const {params} = this.state;
-        const checked = params[index].required;
-        params[index].required = !checked;
-        this.setState({
-            params
-        })
-    };
-
-    changeDefault = (e,i)=>{
-        const {params} = this.state;
-        params[i].defaultValue = e.target.value;
-        this.setState({
-            params
-        })
-    };
-
-    changeComment = (e,i)=>{
-        const {params} = this.state;
-        params[i].comment = e.target.value;
-        this.setState({
-            params
+    changeValue = (key,value,index)=>{
+        this.props.dispatch({
+            type:'params/changeParamsValue',
+            payload:{
+                key, value, index
+            }
         })
     };
 
     addParams = ()=>{
-        let {params} = this.state;
-        params.push({
-            name:'',
-            type:'string',
-            defaultValue:'',
-            required:true,
-        });
-        this.setState({
-            params
-        });
+        this.props.dispatch({
+            type:'params/addParams'
+        })
     };
 
     removeParams = (index)=>{
-        let {params} = this.state;
-        const pre = params.filter((_,i)=>i<index);
-        const next = params.filter((_,i)=>i>index);
-        this.setState({
-            params:[...pre,...next]
+        this.props.dispatch({
+            type:'params/removeParams',
+            payload:{
+                index
+            }
         })
     };
 
@@ -91,18 +43,20 @@ export default class View extends React.Component{
         const that = this;
 
         const colStyle = {marginRight:'8px',marginTop:'8px'};
+        const {Params} = this.props;
+
 
         //参数节点
         const paramItemView = (item)=>{
             const {index,name,type,defaultValue,required,comment} = item;
             return (
-                <div>
+                <div key={index}>
                     <Row>
                         <Col span={3} style={colStyle}>
-                            <Input placeholder={'字段名'} value={name} onChange={(e)=>{that.changeName(e,index)}}/>
+                            <Input placeholder={'字段名'} value={name} onChange={(e)=>{that.changeValue('name',e.target.value,index)}}/>
                         </Col>
                         <Col span={2} style={colStyle}>
-                            <Select value={type} style={{ width: 135 }} onChange={(e)=>{that.changeType(e,index)}}>
+                            <Select value={type} style={{ width: 135 }} onChange={(e)=>{that.changeValue('type',e,index)}}>
                                 <OptGroup label={"基本类型"}>
                                     <Option value={"string"}>string</Option>
                                     <Option value={"number"}>number</Option>
@@ -115,19 +69,19 @@ export default class View extends React.Component{
                             </Select>
                         </Col>
                         <Col span={3} style={colStyle}>
-                            <Input placeholder={'默认值'} value={defaultValue} onChange={(e)=>{that.changeDefault(e,index)}}/>
+                            <Input placeholder={'默认值'} value={defaultValue} onChange={(e)=>{that.changeValue('defaultValue',e.target.value,index)}}/>
                         </Col>
                         <Col span={1} style={colStyle}>
                             <div>
-                                <Checkbox onChange={()=>{that.changeRequire(index)}} checked={required}>必选</Checkbox>
+                                <Checkbox onChange={(e)=>{that.changeValue('required',e.target.checked,index)}} checked={required}>必选</Checkbox>
                             </div>
                         </Col>
                         <Col span={6} style={colStyle}>
-                            <Input placeholder={'备注'} value={comment} onChange={(e)=>{that.changeComment(e,index)}}/>
+                            <Input placeholder={'备注'} value={comment} onChange={(e)=>{that.changeValue('comment',e.target.value,index)}}/>
                         </Col>
                         <Col span={1} style={colStyle}>
                             <Button type={'danger'} onClick={()=>{
-                                this.removeParams(index)
+                                that.removeParams(index)
                             }}>删除</Button>
                         </Col>
                     </Row>
@@ -138,15 +92,33 @@ export default class View extends React.Component{
 
         return (
           <div>
-              <p style={{marginTop:'8px'}}>请求参数</p>
-              {this.state.params.map((v,i)=>{
+              <p style={{marginTop:'8px',fontSize:'16px',fontWeight:500}}>请求参数</p>
+              <Row>
+                  <Col span={3} style={colStyle}>
+                      <span>字段名</span>
+                  </Col>
+                  <Col span={2} style={colStyle}>
+                      <span>类型</span>
+                  </Col>
+                  <Col span={3} style={colStyle}>
+                      <span>默认值</span>
+                  </Col>
+                  <Col span={1} style={colStyle}>
+                      <span>是否必选</span>
+                  </Col>
+                  <Col span={6} style={colStyle}>
+                      <span>备注</span>
+                  </Col>
+                  <Col span={1} style={colStyle}>
+                      <span>操作</span>
+                  </Col>
+              </Row>
+              {Params.map((v,i)=>{
                   v.index = i;
                   return paramItemView(v);
               })}
-              <hr/>
-              <Button onClick={()=>{
-                  this.addParams()
-              }}>添加</Button>
+              <p>{this.props.Value}</p>
+              <Button onClick={this.addParams}>添加</Button>
           </div>
         )
     }
