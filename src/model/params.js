@@ -1,3 +1,5 @@
+import {addApi,listApi} from '../util/service'
+
 export default {
     namespaces: 'params',
     state: {
@@ -26,8 +28,9 @@ export default {
         }
     },
     effects:{
-        *getList({payload},{call,put}){
-            console.log(payload)
+        *addApi({payload},{call,put}){
+            const res = yield call(addApi,payload);
+            console.log(res);
         }
     },
     reducers: {

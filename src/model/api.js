@@ -1,3 +1,5 @@
+import {listApi} from "../util/service";
+
 export default {
     namespaces: 'api',
     state: {
@@ -8,17 +10,20 @@ export default {
         }]
     },
     effects:{
-        *getList({payload},{call,put}){
-            console.log(payload)
-        }
+        *getApiList({payload},{call,put}){
+            const res = yield call(listApi,payload);
+            console.log(res);
+            // yield put({
+            //     type:'setList',
+            //     payload:res.
+            // })
+        },
     },
     reducers: {
-        addModel(state, {payload}) {
-            let {list} = state;
-            list = list.concat(payload);
+        setList(state,{payload}){
             return {
                 ...state,
-                list
+                list:payload,
             }
         }
     }

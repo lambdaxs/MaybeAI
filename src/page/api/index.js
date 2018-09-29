@@ -7,8 +7,10 @@ import CalView from './cal'
 import TestView from './test'
 
 @connect(({params}) => ({
+    Request:params.request,
     Params:params.params,
     Cals:params.cals,
+    Test:params.test,
 }))
 class View extends react.Component {
     constructor(props) {
@@ -20,9 +22,22 @@ class View extends react.Component {
     }
 
     save = ()=>{
-        const {Cals,Params} = this.props;
-        console.log(Cals,Params);
-    };
+        const {Request,Cals,Params,Test} = this.props;
+        const data = {
+            request:Request,
+            params:Params,
+            cals:Cals,
+            test:Test,
+        };
+        //add
+        console.log(data);
+        //
+        this.props.dispatch({
+            type:'params/addApi',
+            payload:data
+        })
+    }
+    ;
 
     render(){
         const septor = (<div><hr/></div>);

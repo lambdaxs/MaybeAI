@@ -16,7 +16,10 @@ class View extends react.Component {
     }
 
     componentWillMount() {
-
+        this.props.dispatch({
+            type:'api/getApiList',
+            payload:{}
+        })
     }
 
     render(){
