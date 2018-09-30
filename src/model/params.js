@@ -37,7 +37,9 @@ export default {
             }
         },
         *updateApi({payload},{call,put}){
-
+            const {id,data} = payload;
+            const {code} = yield call(updateApi,id,data);
+            return code === 0;
         },
         *getApiDetail({payload},{call,put}){
             const {code,data,message} = yield call(detailApi,payload);

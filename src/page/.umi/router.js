@@ -45,7 +45,7 @@ let routes = [
             "exact": true
           },
           {
-            "component": () => React.createElement(require('/Users/xiaos/MaybeAI/node_modules/_umi-build-dev@1.1.1@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
+            "component": () => React.createElement(require('/Users/xiaos/WebstormProjects/MaybeAI/node_modules/.1.0.3@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
           }
         ]
       },
@@ -78,20 +78,19 @@ let routes = [
             "exact": true
           },
           {
-            "component": () => React.createElement(require('/Users/xiaos/MaybeAI/node_modules/_umi-build-dev@1.1.1@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
+            "component": () => React.createElement(require('/Users/xiaos/WebstormProjects/MaybeAI/node_modules/.1.0.3@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
           }
         ]
       },
       {
-        "component": () => React.createElement(require('/Users/xiaos/MaybeAI/node_modules/_umi-build-dev@1.1.1@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
+        "component": () => React.createElement(require('/Users/xiaos/WebstormProjects/MaybeAI/node_modules/.1.0.3@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
       }
     ]
   },
   {
-    "component": () => React.createElement(require('/Users/xiaos/MaybeAI/node_modules/_umi-build-dev@1.1.1@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
+    "component": () => React.createElement(require('/Users/xiaos/WebstormProjects/MaybeAI/node_modules/.1.0.3@umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/page', hasRoutesInConfig: true })
   }
 ];
-window.g_plugins.applyForEach('patchRoutes', { initialValue: routes });
 
 export default function() {
   return (

@@ -44,7 +44,7 @@ export const addApi = async(data)=>{
 };
 
 export const updateApi = async(id,data)=>{
-  return await postReq(`/admin/api/edit`,{_id:id,data})
+  return await postReq(`/admin/api/update`,{_id:id,...data})
 };
 
 export const detailApi = async(_id)=>{

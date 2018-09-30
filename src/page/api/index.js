@@ -49,14 +49,14 @@ class View extends react.Component {
             test:Test,
         };
         this.props.dispatch({
-            type:'params/addApi',
-            payload:data
+            type:'params/updateApi',
+            payload:{id,data}
         }).then(rs=>{
             if (rs){
-                message.success('新增成功')
+                message.success('更新成功')
                 //跳转
             }else {
-                message.success('新增失败')
+                message.success('更新失败')
             }
         })
     };
