@@ -1,4 +1,4 @@
-import {listApi} from "../util/service";
+import {listApi,delApi} from "../util/service";
 
 export default {
     namespaces: 'api',
@@ -15,11 +15,16 @@ export default {
                 })
             }
         },
+        *delApi({payload},{call,put}){
+            const {code} = yield call(delApi,payload);
+            return code === 0
+        }
     },
     reducers: {
         setList(state,{payload}){
             payload = payload.map(v=>{
-                const {_id,request:{url,comment}} = v;
+                const {_id,request={}} = v;
+                const {url,comment} = request;
                return  {_id,url,comment}
             });
             return {

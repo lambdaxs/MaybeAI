@@ -54,3 +54,7 @@ export const detailApi = async(_id)=>{
 export const listApi = async(query)=>{
     return await postReq(`/admin/api/list`,query)
 };
+
+export const delApi = async(id)=>{
+    return await postReq(`/admin/api/del`,{_id:id})
+};

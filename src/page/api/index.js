@@ -20,6 +20,7 @@ class View extends react.Component {
             id:'',
         }
     }
+
     componentWillMount() {
         const {match:{params={}}} = this.props;
         const {id} = params;
@@ -32,11 +33,21 @@ class View extends react.Component {
                 type:'params/getApiDetail',
                 payload:id,
             }).then(rs=>{
-                console.log(rs);
+                console.log('获取列表成功');
             }).catch(err=>{
-                console.log(err);
+                message.error('获取列表失败')
+            })
+        }else {
+            this.setState({
+                mode:'new'
             })
         }
+    }
+
+    componentWillUnmount(){
+        this.props.dispatch({
+            type:'params/cleanApiDetail'
+        })
     }
 
     update = ()=>{
@@ -104,7 +115,14 @@ class View extends react.Component {
                 {septor}
                 <TestView/>
                 {septor}
-                <Button onClick={this.save}>show</Button>
+                {
+                    this.state.mode === 'new' &&
+                    <Button onClick={this.save}>新建</Button>
+                }
+                {
+                    this.state.mode === 'edit' &&
+                    <Button onClick={this.save}>更新</Button>
+                }
             </div>
         )
     }

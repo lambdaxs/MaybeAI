@@ -55,6 +55,33 @@ export default {
         }
     },
     reducers: {
+        cleanApiDetail(state,{payload}){
+            return {
+                request:{
+                    url:'',
+                    comment:'',
+                },
+                params:[{
+                    name:'',
+                    type:'string',
+                    defaultValue:'',
+                    required:true,
+                    comment:''
+                }],
+                cals:[{
+                    cmd: '',
+                    args: [''],
+                    dataInfo: '',
+                    contextKey: '',
+                    index: 0,
+                    comment: '',
+                }],
+                test:{
+                    params:"",
+                    response:"",
+                }
+            }
+        },
         setApiDetail(state,{payload}){
             const {request,params,cals,test} = payload;
             return {

@@ -1,7 +1,8 @@
 import react from 'react'
-import {Table,Input,Row,Col,Button} from 'antd'
+import {Table,Input,Row,Col,Button,Popconfirm,message} from 'antd'
 import {connect} from 'dva';
 import Link from 'umi/link';
+import router from 'umi/router';
 
 @connect(({api}) => ({
     List:api.list
@@ -17,13 +18,18 @@ class View extends react.Component {
     }
 
     componentWillMount() {
+        this.getList()
+    }
+
+    getList = ()=>{
         this.props.dispatch({
             type:'api/getApiList',
             payload:{}
         })
-    }
+    };
 
     render(){
+        const that = this;
         const cols = [{
             title:'接口路径',
             dataIndex:'url',
@@ -40,7 +46,19 @@ class View extends react.Component {
                 const {_id} = r;
                 return (
                     <div>
-                        <Link to={`/api/edit/${_id}`}>编辑</Link>/<Link to={'/api/edit'}>删除</Link>
+                        <Link to={`/api/edit/${_id}`}>编辑</Link>/<Popconfirm title={"是否删除"} onConfirm={()=>{
+                        that.props.dispatch({
+                            type:'api/delApi',
+                            payload:_id
+                        }).then(rs=>{
+                            if (rs){
+                                message.success('删除成功');
+                                that.getList()
+                            }else {
+                                message.error('删除失败');
+                            }
+                        })
+                    }}><a>删除</a></Popconfirm>
                     </div>
                 )
             }
@@ -75,7 +93,9 @@ class View extends react.Component {
                             <Button>查询</Button>
                         </Col>
                         <Col span={2} style={query_style}>
-                            <Button>新增接口</Button>
+                            <Button onClick={()=>{
+                                router.push('/api/new')
+                            }}>新增接口</Button>
                         </Col>
                     </Row>
 
